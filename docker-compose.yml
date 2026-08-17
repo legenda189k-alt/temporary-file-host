@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - UPLOAD_FOLDER=uploads/
+      - MAX_FILE_SIZE_MB=100
+    volumes:
+      - ./uploads:/app/uploads
