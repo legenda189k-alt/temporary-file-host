@@ -15,3 +15,22 @@ git clone https://github.com/legenda189k-alt/temporary-file-host.git
 cd temporary-file-host
 pip install -r requirements.txt
 python app.py
+
+## ⚠️ Limitations
+- Max file size: 100 MB (configurable)
+- TTL: 1–720 hours
+- Storage: local disk (not S3/cloud)
+- No password protection or download limits
+
+## 🛡️ Security Note
+- The encryption key is stored locally (`key.key`). For production, use environment variables or a secret manager.
+
+## 📈 Roadmap
+- Password-protected links
+- Download count limits
+- Telegram bot integration
+- Chunked upload for large files
+- Admin dashboard
+
+## 📜 Legal
+See [PRIVACY.md](PRIVACY.md) and [TERMS.md](TERMS.md).
