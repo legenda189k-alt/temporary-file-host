@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Временное файловое хранилище</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>📤 Временное файловое хранилище</h1>
+        <p>Загрузите файл и получите ссылку с ограничением по времени</p>
+        
+        <form id="uploadForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Выберите файл (до 100 MB)</label>
+                <input type="file" id="file" name="file" required>
+            </div>
+            <div class="form-group">
+                <label for="expire">Срок действия (часов):</label>
+                <input type="number" id="expire" name="expire" value="24" min="1" max="720">
+            </div>
+            <button type="submit">📤 Загрузить</button>
+        </form>
+        
+        <div id="result" style="display: none;">
+            <h3>✅ Файл загружен!</h3>
+            <p><strong>Ссылка:</strong> <a href="#" id="link" target="_blank"></a></p>
+            <p><strong>Имя:</strong> <span id="filename"></span></p>
+            <p><strong>Размер:</strong> <span id="size"></span></p>
+            <p><strong>Действителен до:</strong> <span id="expire_time"></span></p>
+            <button onclick="copyLink()">📋 Копировать ссылку</button>
+        </div>
+        
+        <div id="error" style="display: none; color: red;"></div>
+    </div>
+    
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            const file = document.getElementById('file').files[0];
+            const expire = document.getElementById('expire').value;
+            
+            if (!file) {
+                showError('Выберите файл');
+                return;
+            }
+            
+            formData.append('file', file);
+            formData.append('expire', expire);
+            
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('link').href = data.link;
+                    document.getElementById('link').textContent = data.link;
+                    document.getElementById('filename').textContent = data.filename;
+                    document.getElementById('size').textContent = (data.size / 1024 / 1024).toFixed(2) + ' MB';
+                    document.getElementById('expire_time').textContent = new Date(data.expire).toLocaleString();
+                    document.getElementById('result').style.display = 'block';
+                    document.getElementById('error').style.display = 'none';
+                } else {
+                    showError(data.error || 'Ошибка загрузки');
+                }
+            } catch (err) {
+                showError('Ошибка соединения: ' + err.message);
+            }
+        });
+        
+        function showError(message) {
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('error').textContent = '❌ ' + message;
+            document.getElementById('error').style.display = 'block';
+        }
+        
+        function copyLink() {
+            const link = document.getElementById('link').textContent;
+            navigator.clipboard.writeText(link).then(() => {
+                alert('Ссылка скопирована!');
+            }).catch(() => {
+                alert('Скопируйте ссылку вручную: ' + link);
+            });
+        }
+    </script>
+</body>
+</html>
