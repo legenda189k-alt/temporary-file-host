@@ -9,14 +9,7 @@
 - Лёгкий интерфейс
 - Не требует регистрации
 
-## Запуск на сервере
-```bash
-git clone https://github.com/legenda189k-alt/temporary-file-host.git
-cd temporary-file-host
-pip install -r requirements.txt
-python app.py
-
-## ⚠️ Limitations
+- ⚠️ Limitations
 - Max file size: 100 MB (configurable)
 - TTL: 1–720 hours
 - Storage: local disk (not S3/cloud)
@@ -34,3 +27,12 @@ python app.py
 
 ## 📜 Legal
 See [PRIVACY.md](PRIVACY.md) and [TERMS.md](TERMS.md).
+
+
+## Запуск на сервере
+```bash
+git clone https://github.com/legenda189k-alt/temporary-file-host.git
+cd temporary-file-host
+pip install -r requirements.txt
+python app.py
+
