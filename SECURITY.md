@@ -7,4 +7,4 @@ If you discover a security vulnerability, please report it privately by email to
 Only the latest version receives security updates.
 
 ## Disclosure Policy
-We will respond to security reports within 48 hours and will work to fix the issue promptly.
+We will respond to messages related to security and the resolution of issues and operational disruptions, and we will work to resolve them promptly. To the best of our ability.
